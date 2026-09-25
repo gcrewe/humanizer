@@ -1,0 +1,11 @@
+# Files and directories excluded from the Apify build
+.git
+.github
+.claude-plugin
+agents
+scripts
+.DS_Store
+STORAGE
+node_modules
+.actor/__error
+apify_storage

@@ -1,0 +1,16 @@
+{
+  "name": "humanizer",
+  "version": "3.0.0",
+  "description": "Humanizer rewrites AI-sounding text so it reads like a person wrote it, without changing what it says.",
+  "type": "module",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "node src/main.js"
+  },
+  "dependencies": {
+    "apify": "^3.2.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

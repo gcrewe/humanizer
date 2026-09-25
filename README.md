@@ -63,6 +63,33 @@ Now humanize this text:
 
 Humanizer follows the sample's rhythm, word choice, punctuation, and deliberate quirks, including dashes if you use them.
 
+## Run as an Apify Actor
+
+This repository is also an Apify Actor. Deploy it to the Apify platform (the repo root is the actor root) and run it with this input:
+
+```json
+{
+  "text": "AI-sounding text to rewrite",
+  "voiceSample": "Optional: 2-3 paragraphs of your own writing",
+  "model": "gpt-4o-mini",
+  "baseUrl": "https://api.openai.com/v1",
+  "temperature": 0.7,
+  "apiKey": "your-api-key"
+}
+```
+
+- `text` is required: the text to humanize.
+- `voiceSample` is optional: the rewrite matches its rhythm, word choice, and punctuation.
+- `model` and `baseUrl` accept any OpenAI-compatible chat completions API, such as OpenAI, OpenRouter, Groq, or Together.
+- `apiKey` is required and stored encrypted; the actor uses it only for the LLM call.
+
+The actor runs the `SKILL.md` prompt against the model and stores one record per run in its dataset with these fields:
+
+- `humanizedText`: the final rewrite.
+- `draft`: the first rewrite the model produced.
+- `remainingTells`: tells that survived the rewrite, or `none`.
+- `inputCharacters` and `outputCharacters`: text lengths.
+
 ## How it works
 
 A language model writes whatever is most likely to come next, so by default it makes the choice that fits the widest range of readers and subjects. A person chooses for one reader and one subject. Every tell Humanizer looks for is a form of that default choice: a sentence that signals importance instead of adding a fact, rhythm or formatting applied by rule, an ordinary fact dressed as a pivotal one, or text left over from the chat.

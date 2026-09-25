@@ -1,0 +1,8 @@
+{
+  "name": "humanizer",
+  "version": "3.0.0",
+  "description": "Humanizer rewrites AI-sounding text so it reads like a person wrote it, without changing what it says.",
+  "scripts": {
+    "start": "node src/main.js"
+  }
+}

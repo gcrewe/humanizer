@@ -1,0 +1,70 @@
+{
+  "actorSpecification": 1,
+  "name": "humanizer",
+  "title": "Humanizer: remove AI writing patterns",
+  "description": "Rewrites AI-sounding text so it reads like a person wrote it, without changing what it says. Detects and removes the 25 AI writing tells from Wikipedia's 'Signs of AI writing'. Send any text; get back a human-sounding rewrite plus the draft and the tells that remained.",
+  "version": "3.0.0",
+  "buildTag": "latest",
+  "environmentVariables": {},
+  "input": {
+    "title": "Humanizer input",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+      "text": {
+        "title": "Text to humanize",
+        "type": "string",
+        "description": "The AI-sounding text you want rewritten. Everything else stays the same: facts, names, numbers, and quotes are kept.",
+        "editor": "textarea",
+        "prefill": "I recently spent five unforgettable days in Lisbon, and let me tell you \u2014 this city completely stole my heart. From the moment I arrived, I knew I was somewhere truly special."
+      },
+      "voiceSample": {
+        "title": "Writing sample (optional)",
+        "type": "string",
+        "description": "Two or three paragraphs of your own writing. The rewrite matches your rhythm, word choice, punctuation, and quirks.",
+        "editor": "textarea"
+      },
+      "model": {
+        "title": "Model",
+        "type": "string",
+        "description": "Any model your API provider serves, such as gpt-4o-mini or gpt-4.1.",
+        "editor": "textfield",
+        "default": "gpt-4o-mini"
+      },
+      "baseUrl": {
+        "title": "OpenAI-compatible API base URL",
+        "type": "string",
+        "description": "The chat completions endpoint base. Works with OpenAI and any OpenAI-compatible provider (OpenRouter, Groq, Together, and so on).",
+        "editor": "textfield",
+        "default": "https://api.openai.com/v1"
+      },
+      "temperature": {
+        "title": "Temperature",
+        "type": "number",
+        "description": "Sampling temperature between 0 and 2. Lower is more consistent, higher is more varied.",
+        "editor": "number",
+        "default": 0.7,
+        "minimum": 0,
+        "maximum": 2
+      },
+      "apiKey": {
+        "title": "API key",
+        "type": "string",
+        "description": "API key for the provider named in baseUrl. Stored encrypted and only used for the LLM call.",
+        "editor": "textfield",
+        "isSecret": true
+      }
+    },
+    "required": [
+      "text",
+      "apiKey"
+    ]
+  },
+  "storages": {
+    "dataset": {
+      "actorSpecification": 1,
+      "title": "Humanizer output",
+      "views": {}
+    }
+  }
+}

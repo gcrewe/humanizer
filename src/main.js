@@ -12,18 +12,23 @@ const input = await Actor.getInput();
 if (!input?.text || !String(input.text).trim()) {
     await Actor.fail('Input field "text" is required. Paste the AI-sounding text you want humanized.');
 }
-if (!input?.apiKey || !String(input.apiKey).trim()) {
-    await Actor.fail('Input field "apiKey" is required. Add an OpenAI-compatible API key.');
-}
 
 const skillMarkdown = readFileSync(join(__dirname, '..', 'SKILL.md'), 'utf8');
 const systemPrompt = skillMarkdown.replace(/^---\s*[\s\S]*?---\s*/m, '').trim();
 
 const text = String(input.text).trim();
 const voiceSample = input.voiceSample ? String(input.voiceSample).trim() : '';
-const model = String(input.model || 'gpt-4o-mini').trim();
-const baseUrl = String(input.baseUrl || 'https://api.openai.com/v1').trim().replace(/\/+$/, '');
+const model = String(input.model || 'openai/gpt-5.4-mini').trim();
+const baseUrl = String(input.baseUrl || 'https://openrouter.apify.actor/api/v1').trim().replace(/\/+$/, '');
 const temperature = typeof input.temperature === 'number' ? input.temperature : 0.7;
+
+// The Apify OpenRouter proxy bills the Apify account and authenticates with the
+// platform-injected APIFY_TOKEN. An input apiKey overrides it for other providers.
+const apiKey = input.apiKey ? String(input.apiKey).trim() : process.env.APIFY_TOKEN;
+
+if (!apiKey) {
+    await Actor.fail('No API key available. Run on the Apify platform (APIFY_TOKEN is provided automatically) or set the "apiKey" input for another OpenAI-compatible provider.');
+}
 
 let userPrompt = `Humanize this text:\n\n${text}`;
 if (voiceSample) {
@@ -45,7 +50,7 @@ const response = await fetch(`${baseUrl}/chat/completions`, {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${input.apiKey}`,
+        Authorization: `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
         model,

@@ -27,16 +27,16 @@
       "model": {
         "title": "Model",
         "type": "string",
-        "description": "Any model your API provider serves, such as gpt-4o-mini or gpt-4.1.",
+        "description": "Any OpenRouter model slug, such as openai/gpt-5.4-mini or anthropic/claude-sonnet-4. See openrouter.ai/models for the catalog.",
         "editor": "textfield",
-        "default": "gpt-4o-mini"
+        "default": "openai/gpt-5.4-mini"
       },
       "baseUrl": {
         "title": "OpenAI-compatible API base URL",
         "type": "string",
-        "description": "The chat completions endpoint base. Works with OpenAI and any OpenAI-compatible provider (OpenRouter, Groq, Together, and so on).",
+        "description": "OpenAI-compatible chat completions base URL. Defaults to the Apify OpenRouter proxy, which is billed to the Apify account. Set it to https://api.openai.com/v1 or another provider to use your own apiKey.",
         "editor": "textfield",
-        "default": "https://api.openai.com/v1"
+        "default": "https://openrouter.apify.actor/api/v1"
       },
       "temperature": {
         "title": "Temperature",
@@ -50,14 +50,13 @@
       "apiKey": {
         "title": "API key",
         "type": "string",
-        "description": "API key for the provider named in baseUrl. Stored encrypted and only used for the LLM call.",
+        "description": "Optional. Only needed when baseUrl points at a provider other than the Apify OpenRouter proxy. Stored encrypted and only used for the LLM call.",
         "editor": "textfield",
         "isSecret": true
       }
     },
     "required": [
-      "text",
-      "apiKey"
+      "text"
     ]
   },
   "storages": {

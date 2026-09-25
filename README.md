@@ -71,17 +71,16 @@ This repository is also an Apify Actor. Deploy it to the Apify platform (the rep
 {
   "text": "AI-sounding text to rewrite",
   "voiceSample": "Optional: 2-3 paragraphs of your own writing",
-  "model": "gpt-4o-mini",
-  "baseUrl": "https://api.openai.com/v1",
-  "temperature": 0.7,
-  "apiKey": "your-api-key"
+  "model": "openai/gpt-5.4-mini",
+  "temperature": 0.7
 }
 ```
 
 - `text` is required: the text to humanize.
 - `voiceSample` is optional: the rewrite matches its rhythm, word choice, and punctuation.
-- `model` and `baseUrl` accept any OpenAI-compatible chat completions API, such as OpenAI, OpenRouter, Groq, or Together.
-- `apiKey` is required and stored encrypted; the actor uses it only for the LLM call.
+- `model` is any OpenRouter model slug, such as `openai/gpt-5.4-mini` or `anthropic/claude-sonnet-4`.
+- By default the actor uses the Apify OpenRouter proxy, which is billed to the Apify account, so no API key is needed.
+- To use your own OpenAI-compatible provider instead, set `baseUrl` (for example `https://api.openai.com/v1`) and add your `apiKey` to the input. The key is stored encrypted and only used for the LLM call.
 
 The actor runs the `SKILL.md` prompt against the model and stores one record per run in its dataset with these fields:
 
